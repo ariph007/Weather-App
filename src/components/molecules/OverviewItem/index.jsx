@@ -4,7 +4,7 @@ import { WiHumidity } from 'react-icons/wi';
 import { ContextProvider } from '../../../helper/context';
 
 const OverviewItem = ({ title, desc }) => {
-  let { loading, setLoading } = useContext(ContextProvider);
+  let { loading } = useContext(ContextProvider);
 
   return (
     <div className='mx-auto mt-6 w-full'>

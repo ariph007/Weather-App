@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import DetailCity from '../components/organisms/DetailCity';
 import HomeContent from '../components/organisms/HomeContent';
@@ -9,25 +8,18 @@ import { ContextProvider } from '../helper/context';
 import WeatherService from '../services/weather.js';
 
 const Home = () => {
-  let {
-    currentWeather,
-    setCurrentWeather,
-    loading,
-    setLoading,
-    search,
-    setSearch,
-    setError,
-  } = useContext(ContextProvider);
+  let { currentWeather, setCurrentWeather, setLoading, search, setError } =
+    useContext(ContextProvider);
 
   const loadCurrentWeather = async () => {
     try {
       setLoading(true);
       const loadCurrent = await WeatherService.getCurrentWeather(search);
+      console.log(loadCurrent);
       setTimeout(() => {
         setCurrentWeather(loadCurrent);
         setLoading(false);
       }, 1000);
-      // console.log(loadCurrent);
     } catch (error) {
       setLoading(true);
       const loadCurrent = await WeatherService.getCurrentWeather('jakarta');
@@ -39,9 +31,7 @@ const Home = () => {
     }
   };
   useEffect(() => {
-    // getDailyTemp();
     loadCurrentWeather();
-    // console.log(dailyTemp);
   }, [search]);
 
   if (currentWeather === undefined || currentWeather.length === 0) {

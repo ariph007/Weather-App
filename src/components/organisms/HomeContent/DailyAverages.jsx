@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Area } from '@ant-design/plots';
-import axios from 'axios';
 import { ContextProvider } from '../../../helper/context';
 import WeatherService from '../../../services/weather';
 
@@ -41,7 +40,9 @@ const DailyAverages = () => {
 
   return (
     <div className='mt-6 flex flex-col'>
-      <p className='mb-6 text-sm font-medium text-slate-900'>Daily Averages</p>
+      <p className='mb-6 text-sm font-medium text-slate-900'>
+        Daily Temperature Averages °C
+      </p>
       <div className='h-[100px] w-full sm:h-[200px]'>
         <Area {...config} />
       </div>
