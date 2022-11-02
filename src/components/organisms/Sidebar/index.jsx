@@ -5,7 +5,7 @@ import Menu from './Menu';
 const Sidebar = ({ activeMenu }) => {
   return (
     <>
-      <section className='flex w-2/12 flex-col bg-[#EEF2F3] px-4 pt-2'>
+      <section className='hidden w-2/12 flex-col bg-[#EEF2F3] px-4 pt-2 sm:flex'>
         <Logo />
         <Menu />
       </section>

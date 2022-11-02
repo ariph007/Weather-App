@@ -6,8 +6,11 @@ const Header = () => {
     dateStyle: 'long',
   });
   return (
-    <div className='flex items-center border-b-[1px] border-b-slate-300 pb-4'>
-      <p className='text-lg font-semibold text-slate-900'>{today}</p>
+    <div
+      className='flex w-full flex-col border-b-[1px] border-b-slate-300 
+    pb-4 sm:flex sm:flex-row sm:items-center'
+    >
+      <p className='text-left text-lg font-semibold text-slate-900'>{today}</p>
       <Search />
     </div>
   );

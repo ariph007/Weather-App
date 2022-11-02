@@ -1,56 +1,57 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { useEffect } from 'react';
+import DetailCity from '../components/organisms/DetailCity';
 import HomeContent from '../components/organisms/HomeContent';
+import ProgressLoading from '../components/organisms/ProgressLoading';
 import Sidebar from '../components/organisms/Sidebar';
 import { ContextProvider } from '../helper/context';
 import WeatherService from '../services/weather.js';
 
 const Home = () => {
-  const [dailyTemp, setDailyTemp] = useState([]);
-  // const [currentWeather, setCurrentWeather] = useState([]);
-  let { currentWeather, setCurrentWeather } = useContext(ContextProvider);
-  const [search, setSearch] = useState('jakarta');
-  // const getDailyTemp = async () => {
-  //   await axios
-  //     .get(
-  //       `https://api.openweathermap.org/data/2.5/forecast?q=${search}&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API}`
-  //     )
-  //     .then((result) => {
-  //       console.log(result.data.list);
-  //       setDailyTemp(result.data.list);
-  //       const temp = result.data.list;
-
-  //       let objTemp = {};
-  //       for (const data of temp) {
-  //         let date = new Date(data.dt_txt).toLocaleDateString('en-ID', {
-  //           dateStyle: 'long',
-  //         });
-  //         objTemp[date] = data.main.temp;
-  //       }
-  //       console.log(objTemp);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  let {
+    currentWeather,
+    setCurrentWeather,
+    loading,
+    setLoading,
+    search,
+    setSearch,
+    setError,
+  } = useContext(ContextProvider);
 
   const loadCurrentWeather = async () => {
-    const loadCurrent = await WeatherService.getCurrentWeather(search);
-    setCurrentWeather(loadCurrent);
+    try {
+      setLoading(true);
+      const loadCurrent = await WeatherService.getCurrentWeather(search);
+      setTimeout(() => {
+        setCurrentWeather(loadCurrent);
+        setLoading(false);
+      }, 1000);
+      // console.log(loadCurrent);
+    } catch (error) {
+      setLoading(true);
+      const loadCurrent = await WeatherService.getCurrentWeather('jakarta');
+      setTimeout(() => {
+        setCurrentWeather(loadCurrent);
+        setLoading(false);
+      }, 1000);
+      setError(error.response.data.message);
+    }
   };
   useEffect(() => {
     // getDailyTemp();
     loadCurrentWeather();
-    console.log(currentWeather);
-  }, []);
+    // console.log(dailyTemp);
+  }, [search]);
+
+  if (currentWeather === undefined || currentWeather.length === 0) {
+    return <ProgressLoading />;
+  }
   return (
     <div className='flex h-screen w-screen flex-row'>
       <Sidebar activeMenu='home' />
       <HomeContent />
-      <div className='w-3/12 bg-yellow-400 pr-4 pt-2'>
-        <p>{currentWeather?.main.temp}</p>
-      </div>
+      <DetailCity />
     </div>
   );
 };
